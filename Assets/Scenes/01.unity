@@ -340,7 +340,7 @@ Transform:
   m_GameObject: {fileID: 1709207703}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 16, y: 1, z: 16}
+  m_LocalScale: {x: 128, y: 1, z: 128}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -385,10 +385,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca58037546c14b448bf8325534a26175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _drawMode: 1
   _displayer: {fileID: 1928989647}
-  _width: 16
-  _height: 16
-  _scale: 2.5
+  _width: 128
+  _height: 128
+  _scale: 30
+  _octaves: 3
+  _persistence: 0.3
+  _lacunarity: 3
+  _seed: 23333
+  _offset: {x: 1.15, y: 1.25}
+  _regions:
+  - name: Snow
+    height: 0.87
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - name: High mountain
+    height: 0.82
+    color: {r: 0.30147058, g: 0.30147058, b: 0.30147058, a: 1}
+  - name: Mountain
+    height: 0.76
+    color: {r: 0.35294116, g: 0.35294116, b: 0.35294116, a: 1}
+  - name: Forest
+    height: 0.63
+    color: {r: 0.014198765, g: 0.41176468, b: 0.047, a: 1}
+  - name: Grass
+    height: 0.55
+    color: {r: 0.13473184, g: 0.6544118, b: 0.1758946, a: 1}
+  - name: Sand
+    height: 0.5
+    color: {r: 0.97809327, g: 1, b: 0.60294116, a: 1}
+  - name: Shallow Sea
+    height: 0.4
+    color: {r: 0.4198417, g: 0.37764925, b: 0.9338235, a: 1}
+  - name: Sea
+    height: 0.25
+    color: {r: 0.062474534, g: 0, b: 0.8235294, a: 1}
+  - name: Deap Sea
+    height: -1
+    color: {r: 0.031237263, g: 0, b: 0.41176468, a: 1}
 --- !u!4 &1928989649
 Transform:
   m_ObjectHideFlags: 0
