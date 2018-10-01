@@ -14,21 +14,27 @@ public struct TerrainType
 
 public class MapGenerator : MonoBehaviour
 {
+    [SerializeField]
+    MapDisplay _displayer;
+
     [System.Serializable]
     enum DrawMode
     {
         NoiseMap,
         ColorsMap,
+        Mesh,
     }
     [SerializeField]
     DrawMode _drawMode;
 
     [SerializeField]
-    MapDisplay _displayer;
-    [SerializeField]
     int _width;
     [SerializeField]
     int _height;
+    [SerializeField]
+    AnimationCurve _heightCurve;
+    [SerializeField]
+    float _maxMeshHeight;
     [SerializeField]
     float _scale;
     [SerializeField]
@@ -50,7 +56,26 @@ public class MapGenerator : MonoBehaviour
     public void GenerateMap()
     {
         float[,] heightMap = PerlinNoise.GeneratePerlinNoiseMap(_width, _height, _seed, _scale, _octaves, _persistence, _lacunarity, _offset);
+        Color[] colorMap = GetColorMap(heightMap);
 
+        switch (_drawMode)
+        {
+            case DrawMode.NoiseMap:
+                _displayer.DrawTexture2D(TextureGenerator.TextureFromHeightMap(heightMap));
+                break;
+
+            case DrawMode.ColorsMap:
+                _displayer.DrawTexture2D(TextureGenerator.TextureFromColorMap(colorMap, _width, _height));
+                break;
+
+            case DrawMode.Mesh:
+                _displayer.DrawMesh(MeshGenerator.GeneratorTerrainMesh(heightMap, _maxMeshHeight, _heightCurve), TextureGenerator.TextureFromColorMap(colorMap, _width, _height));
+                break;
+        }
+    }
+
+    Color[] GetColorMap(float[,] heightMap)
+    {
         Color[] colorMap = new Color[_width * _height];
         for (int y = 0; y < _height; y++)
         {
@@ -67,19 +92,10 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
-
-        switch (_drawMode)
-        {
-            case DrawMode.NoiseMap:
-                _displayer.DrawTexture2D(TextureGenerator.TextureFromHeightMap(heightMap));
-                break;
-
-            case DrawMode.ColorsMap:
-                _displayer.DrawTexture2D(TextureGenerator.TextureFromColorMap(colorMap, _width, _height));
-                break;
-
-        }
+        return colorMap;
     }
+
+
 
     private void OnValidate()                   //OnValidate：当Inspector面板里的数值变化时自动调用
     {
